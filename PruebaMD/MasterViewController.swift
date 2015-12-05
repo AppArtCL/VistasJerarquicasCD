@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-var listadoLibros = ["978-0399255373", "978-0307978486"]
+var listadoLibros = [["The Day the Crayons Quit", "978-0399255373"], ["The Noisy Paint Box", "978-0307978486"]]
 
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
@@ -95,7 +95,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             controller.opcion = 0
             
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                controller.libroBuscado = listadoLibros[indexPath.row]
+                
+                controller.libroBuscado = listadoLibros[indexPath.row][1]
             }
             
         } else if segue.identifier == "buscarNuevo" {
@@ -125,7 +126,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 //****        self.configureCell(cell, atIndexPath: indexPath)
-        cell.textLabel!.text = listadoLibros[indexPath.row]
+        cell.textLabel!.text = listadoLibros[indexPath.row][0]
         return cell
     }
 

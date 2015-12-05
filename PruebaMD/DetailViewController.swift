@@ -166,7 +166,8 @@ class DetailViewController: UIViewController {
             } else if self.codigoError == 0 {
                 // Agregar el item en listadoLibros
                 if self.opcion == 1 {
-                  listadoLibros.append(self.codigoISBN.text!)
+                    let tempLibro = [self.tituloLibro, self.codigoISBN.text!]
+                    listadoLibros.append(tempLibro)
                 }
             }
             return
