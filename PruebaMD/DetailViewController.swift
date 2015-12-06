@@ -39,6 +39,24 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
     
     // MARK: - Funciones
     
+    func revisarExistenciaISBN(codigoRevisar: String) -> Int {
+        let context = self.fetchedResultsController.managedObjectContext
+        let entity = self.fetchedResultsController.fetchRequest.entity!
+        let consulta = entity.managedObjectModel.fetchRequestFromTemplateWithName("consultaISBN", substitutionVariables: ["isbn" : codigoRevisar])
+        do {
+            let entidad2 = try context.executeFetchRequest(consulta!)
+            if (entidad2.count > 0) {
+                return 1
+            } else {
+                return 0
+            }
+        }
+        catch {
+            
+        }
+        return 0
+    }
+    
     func insertaNuevoLibro(nombreLibro: String, autoresLibro: String, codigoLibro: String) {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
@@ -108,7 +126,6 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
                             do {
                                 let jsonCompleto = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableLeaves)
                                 let json = jsonCompleto as! NSDictionary
-                                //***let nombreJSON = "ISBN:" + self.codigoISBN.text!
                                 let nombreJSON = "ISBN:" + codigo
                                 
                                 // Conseguir nombre del texto
@@ -189,9 +206,17 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
                 }))
                 self.presentViewController(alerta, animated: true, completion: nil)
             } else if self.codigoError == 0 {
-                // Agregar el item en listadoLibros
+                // Agregar el item en Master
                 if self.opcion == 1 {
-                    self.insertaNuevoLibro(self.tituloLibro, autoresLibro: self.autores, codigoLibro: self.codigoISBN.text!)
+                    var encontrado = 0
+                    encontrado = self.revisarExistenciaISBN(self.codigoISBN.text!)
+                    if encontrado == 0 {
+                        self.insertaNuevoLibro(self.tituloLibro, autoresLibro: self.autores, codigoLibro: self.codigoISBN.text!)
+                    } else if encontrado == 1 {
+//                        let alerta = UIAlertController(title: "Aviso Importante", message:
+//                            "Ya existe libro con codigo \(self.codigoISBN.text!). No se guardará", preferredStyle: .Alert)
+//                        alerta.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    }
                 }
             }
             return
