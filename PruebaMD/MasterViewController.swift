@@ -30,16 +30,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-//****        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-//****        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-//****        self.navigationItem.leftBarButtonItem = addButton
         
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
         
+        //self.insertNewObject("ffff")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -60,7 +57,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
              
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
+        newManagedObject.setValue("Prueba", forKey: "nombre")
+        newManagedObject.setValue("CD", forKey: "autor")
+        newManagedObject.setValue("666", forKey: "isbn")
         
         // Save the context.
         do {
@@ -77,27 +76,24 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
-//****            if let indexPath = self.tableView.indexPathForSelectedRow {
-//****            let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-//****                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-//****                controller.detailItem = object
-//****
-//****                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-//****                controller.navigationItem.leftItemsSupplementBackButton = true
-//****
-//****                controller.opcion = 0
-//****            }
-      
-            
-            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-            controller.navigationItem.leftItemsSupplementBackButton = true
-            controller.opcion = 0
-            
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                
-                controller.libroBuscado = listadoLibros[indexPath.row][1]
+                let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
+                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                controller.detailItem = object
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.opcion = 0
             }
+            
+//CD            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+//CD            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+//CD            controller.navigationItem.leftItemsSupplementBackButton = true
+//CD            controller.opcion = 0
+//CD
+//CD            if let indexPath = self.tableView.indexPathForSelectedRow {
+//CD
+//CD                controller.libroBuscado = listadoLibros[indexPath.row][1]
+//CD            }
             
         } else if segue.identifier == "buscarNuevo" {
             
@@ -107,32 +103,33 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             
             controller.opcion = 1
             
+            controller.managedObjectContext = self.managedObjectContext
+            
         }
     }
 
     // MARK: - Table View
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//****        return self.fetchedResultsController.sections?.count ?? 0
-        return 1
+        return self.fetchedResultsController.sections?.count ?? 0
+//CD        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//****        let sectionInfo = self.fetchedResultsController.sections![section]
-//****        return sectionInfo.numberOfObjects
-        return listadoLibros.count
+        let sectionInfo = self.fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
+//CD        return listadoLibros.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
-//****        self.configureCell(cell, atIndexPath: indexPath)
-        cell.textLabel!.text = listadoLibros[indexPath.row][0]
+        self.configureCell(cell, atIndexPath: indexPath)
+//CD        cell.textLabel!.text = listadoLibros[indexPath.row][0]
         return cell
     }
 
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-//****        return true
         return false
     }
 
@@ -154,7 +151,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-        cell.textLabel!.text = object.valueForKey("timeStamp")!.description
+        cell.textLabel!.text = object.valueForKey("nombre")!.description
     }
 
     // MARK: - Fetched results controller
@@ -166,14 +163,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName("Event", inManagedObjectContext: self.managedObjectContext!)
+        let entity = NSEntityDescription.entityForName("Libro", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
         
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "nombre", ascending: true)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
