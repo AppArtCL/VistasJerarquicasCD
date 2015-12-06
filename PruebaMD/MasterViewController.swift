@@ -9,8 +9,6 @@
 import UIKit
 import CoreData
 
-var listadoLibros = [["The Day the Crayons Quit", "978-0399255373"], ["The Noisy Paint Box", "978-0307978486"]]
-
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     // MARK: - Conexiones al View
@@ -19,7 +17,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         performSegueWithIdentifier("buscarNuevo", sender: self)
     }
 
-    
     // MARK: - Variables
     
     var detailViewController: DetailViewController? = nil
@@ -35,8 +32,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
-        
-        //self.insertNewObject("ffff")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -48,28 +43,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-    func insertNewObject(sender: AnyObject) {
-        let context = self.fetchedResultsController.managedObjectContext
-        let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context)
-             
-        // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue("Prueba", forKey: "nombre")
-        newManagedObject.setValue("CD", forKey: "autor")
-        newManagedObject.setValue("666", forKey: "isbn")
-        
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //print("Unresolved error \(error), \(error.userInfo)")
-            abort()
-        }
     }
 
     // MARK: - Segues
@@ -84,27 +57,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 controller.navigationItem.leftItemsSupplementBackButton = true
                 controller.opcion = 0
             }
-            
-//CD            let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-//CD            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-//CD            controller.navigationItem.leftItemsSupplementBackButton = true
-//CD            controller.opcion = 0
-//CD
-//CD            if let indexPath = self.tableView.indexPathForSelectedRow {
-//CD
-//CD                controller.libroBuscado = listadoLibros[indexPath.row][1]
-//CD            }
-            
         } else if segue.identifier == "buscarNuevo" {
-            
             let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
             controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
-            
             controller.opcion = 1
-            
             controller.managedObjectContext = self.managedObjectContext
-            
         }
     }
 
@@ -112,19 +70,16 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
-//CD        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
-//CD        return listadoLibros.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         self.configureCell(cell, atIndexPath: indexPath)
-//CD        cell.textLabel!.text = listadoLibros[indexPath.row][0]
         return cell
     }
 

@@ -23,7 +23,6 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
         buscaCodigo(self.codigoISBN.text!)
     }
     
-    
     // MARK: - Variables
 
     var opcion = 0
@@ -35,13 +34,7 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
     var autores = ""
     var urlPortada = ""
     
-    var detailItem: AnyObject? {
-        didSet {
-            // Update the view.
-            //self.configureView()
-        }
-    }
-    
+    var detailItem: AnyObject?    
     var managedObjectContext: NSManagedObjectContext? = nil
     
     // MARK: - Funciones
