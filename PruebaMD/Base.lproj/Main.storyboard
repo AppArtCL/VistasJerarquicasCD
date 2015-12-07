@@ -109,6 +109,16 @@
                                     <rect key="frame" x="101" y="182" width="199" height="101"/>
                                 </variation>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ISBN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnL-0a-bvi">
+                                <rect key="frame" x="20" y="115" width="73" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="77" width="52" height="21"/>
+                                </variation>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -122,6 +132,7 @@
                                 <exclude reference="jEi-gk-6Q2"/>
                                 <exclude reference="qnY-W8-ISh"/>
                                 <exclude reference="7Hm-DD-gVh"/>
+                                <exclude reference="vnL-0a-bvi"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -134,6 +145,7 @@
                                 <include reference="jEi-gk-6Q2"/>
                                 <include reference="qnY-W8-ISh"/>
                                 <include reference="7Hm-DD-gVh"/>
+                                <include reference="vnL-0a-bvi"/>
                             </mask>
                         </variation>
                     </view>
@@ -187,7 +199,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                     </subviews>
