@@ -232,6 +232,12 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
             if let label = self.etiquetaAutores {
                 label.text = detail.valueForKey("autor")!.description
             }
+            
+            if let label = self.codigoISBN {
+                label.text = detail.valueForKey("isbn")!.description
+            }
+
+            
             if detail.valueForKey("portada") == nil {
                 self.imagenPortada.image = UIImage(named: "NoExiste.png")
             } else {
@@ -248,7 +254,11 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
 
         if opcion == 0 {
             self.configureView()
-            codigoISBN.hidden = true
+//CD            codigoISBN.hidden = true
+            codigoISBN.hidden = false
+            codigoISBN.enabled = false
+            
+            
             //buscaCodigo(libroBuscado)
             
             
